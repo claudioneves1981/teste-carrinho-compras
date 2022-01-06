@@ -2,14 +2,19 @@ package br.com.improving.carrinho;
 
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 
 /**
  * Classe que representa o carrinho de compras de um cliente.
  */
-public class CarrinhoCompras {
+public class CarrinhoCompras{
 
-    /**
+	List<Item> itens = new ArrayList<>();
+
+	/**
      * Permite a adição de um novo item no carrinho de compras.
      *
      * Caso o item já exista no carrinho para este mesmo produto, as seguintes regras deverão ser seguidas:
@@ -25,6 +30,17 @@ public class CarrinhoCompras {
      */
     public void adicionarItem(Produto produto, BigDecimal valorUnitario, int quantidade) {
 
+		int index = this.itens.indexOf(produto.getCodigo());
+
+		if(this.itens.contains(produto.getCodigo())){
+			quantidade = this.itens.get(index).getQuantidade() + quantidade;
+			if(this.itens.get(index).getValorUnitario() == valorUnitario){
+				valorUnitario =  this.itens.get(index).getValorUnitario();
+			}
+		}
+		Item item = new Item(produto, valorUnitario, quantidade);
+		this.itens.add(item);
+
     }
 
     /**
@@ -35,6 +51,17 @@ public class CarrinhoCompras {
      * caso o produto não exista no carrinho.
      */
     public boolean removerItem(Produto produto) {
+
+		for(int i = 0; i < itens.size(); i++){
+
+			if(this.itens.get(i).getProduto().equals(produto)){
+				removerItem(i);
+				return true;
+			}
+
+		}
+
+		return false;
 
     }
 
@@ -49,6 +76,12 @@ public class CarrinhoCompras {
      */
     public boolean removerItem(int posicaoItem) {
 
+      if(posicaoItem > itens.size()-1){
+		  return false;
+	  }
+
+	  itens.remove(posicaoItem);
+	  return true;
     }
 
     /**
@@ -59,6 +92,16 @@ public class CarrinhoCompras {
      */
     public BigDecimal getValorTotal() {
 
+		double temp = 0d;
+
+		for (Item item : itens) {
+
+			temp += Double.parseDouble(String.valueOf(item.getValorUnitario())) * item.getQuantidade();
+
+		}
+
+		BigDecimal valorTotal = new BigDecimal(temp);
+		return valorTotal;
     }
 
     /**
@@ -67,6 +110,8 @@ public class CarrinhoCompras {
      * @return itens
      */
     public Collection<Item> getItens() {
+
+		return itens;
 
     }
 }
