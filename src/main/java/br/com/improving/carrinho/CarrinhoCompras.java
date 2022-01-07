@@ -38,6 +38,7 @@ public class CarrinhoCompras{
 				valorUnitario =  this.itens.get(index).getValorUnitario();
 			}
 		}
+
 		Item item = new Item(produto, valorUnitario, quantidade);
 		this.itens.add(item);
 
