@@ -12,6 +12,7 @@ import java.util.Set;
 public class CarrinhoComprasFactory{
 
 	Set<String> carrinhoCliente = new LinkedHashSet<>();
+	Set<CarrinhoCompras> carrinhosCompras = new LinkedHashSet<>();
 
 	public CarrinhoComprasFactory() {
 
@@ -32,8 +33,8 @@ public class CarrinhoComprasFactory{
 		}
 
 		this.carrinhoCliente.add(identificacaoCliente);
-
 		CarrinhoCompras carrinhoCompras = new CarrinhoCompras();
+		this.carrinhosCompras.add(carrinhoCompras);
 		return carrinhoCompras;
 
     }
@@ -47,11 +48,11 @@ public class CarrinhoComprasFactory{
      *
      * @return BigDecimal
      */
-    public BigDecimal getValorTicketMedio(List<CarrinhoCompras> lista)  {
+    public BigDecimal getValorTicketMedio()  {
 
 		double temp;
 		double valortotal = 0d;
-		for (CarrinhoCompras carrinhoCompras : lista) {
+		for (CarrinhoCompras carrinhoCompras : this.carrinhosCompras) {
 			valortotal += Double.parseDouble(String.valueOf(carrinhoCompras.getValorTotal()));
 		}
 		temp = valortotal/carrinhoCliente.size();
